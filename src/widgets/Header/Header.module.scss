@@ -1,5 +1,11 @@
+@import 'shared/styles/colors.scss';
+
 .header {
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
   display: flex;
+  gap: 20px;
   justify-content: center;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid $color-grey;
+  align-items: center;
 }

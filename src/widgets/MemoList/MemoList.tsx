@@ -2,7 +2,6 @@ import { memo } from 'react';
 import { Memo } from 'features/Memo';
 import { MemoType } from 'shared/types';
 import styles from './MemoList.module.scss';
-// import { useSpeechRecognition } from '../../SpeechRecognition/useSpeechRecognition';
 
 type Props = {
   memos: MemoType[];
@@ -19,8 +18,8 @@ function MemoList({ memos, update, remove }: Props): JSX.Element | null {
           description={memo.description}
           content={memo.content}
           id={memo.id.toString()}
-          remove={remove}
-          update={update}
+          onRemove={remove}
+          onUpdate={update}
         />
       ))}
     </ul>

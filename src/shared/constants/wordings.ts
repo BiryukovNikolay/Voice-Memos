@@ -5,4 +5,5 @@ export const WORDINGS = {
   START_RECORDING: 'Start Recording',
   ADD_BUTTON: 'Add Memo',
   CLOSE_FORM: 'Close Form',
+  UPDATE: 'Update',
 };

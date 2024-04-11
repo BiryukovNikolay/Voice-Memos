@@ -11,8 +11,7 @@ import { WORDINGS } from 'shared/constants';
 import styles from './MemoForm.module.scss';
 
 type Props = {
-  addMemo: (memo: MemoType) => void;
-  updateMemo: (memo: MemoType) => void;
+  onSubmit: (memo: MemoType) => void;
   activeMemo: MemoType | null;
 };
 
@@ -21,11 +20,7 @@ const INITIAL_STATE: StateType = {
   [ControlName.MAIN]: '',
 };
 
-function MemoForm({
-  addMemo,
-  updateMemo,
-  activeMemo,
-}: Props): JSX.Element | null {
+function MemoForm({ onSubmit, activeMemo }: Props): JSX.Element | null {
   const [state, setState] = useState<StateType>(INITIAL_STATE);
   const [error, setError] = useState<boolean>(false);
 
@@ -37,21 +32,11 @@ function MemoForm({
       return;
     }
 
-    if (activeMemo) {
-      updateMemo({
-        ...activeMemo,
-        description: state[ControlName.DESCRIPTION],
-        content: state[ControlName.MAIN],
-      });
-
-      return;
-    } else {
-      addMemo({
-        id: Date.now().toString(),
-        description: state[ControlName.DESCRIPTION],
-        content: state[ControlName.MAIN],
-      });
-    }
+    onSubmit({
+      id: activeMemo?.id || '',
+      description: state[ControlName.DESCRIPTION],
+      content: state[ControlName.MAIN],
+    });
 
     setState(INITIAL_STATE);
   }
@@ -97,7 +82,11 @@ function MemoForm({
         value={state[ControlName.MAIN]}
         onChange={onChange}
       />
-      <button type="submit">ADD</button>
+      <div className={styles['footer']}>
+        <button className={styles['submit']} type="submit">
+          {activeMemo ? WORDINGS.UPDATE : WORDINGS.ADD_BUTTON}
+        </button>
+      </div>
     </form>
   );
 }

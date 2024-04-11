@@ -1,7 +1,21 @@
+@import 'shared/styles/colors.scss';
+
 .button {
+  cursor: pointer;
   width: 60px;
   height: 60px;
-  background-color: blue;
+  background-color: $color-blue;
   border: none;
   border-radius: 50%;
+  transition: all 0.3s;
+
+  &:hover {
+    opacity: 0.8;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.icon {
+  color: white;
+  fill: white;
 }

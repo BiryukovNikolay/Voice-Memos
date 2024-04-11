@@ -3,7 +3,7 @@ import { MemoForm } from 'widgets/MemoForm';
 import { Header } from 'widgets/Header';
 import { MemoList } from 'widgets/MemoList';
 import { WORDINGS } from 'shared/constants';
-import { AddButton, Modal } from 'shared/ui';
+import { Modal } from 'shared/ui';
 import { useLayout } from './useLayout';
 
 function Layout() {
@@ -12,26 +12,22 @@ function Layout() {
     activeMemo,
     formOpen,
     closeForm,
-    handleAdd,
     handleRemove,
-    handleUpdate,
+    handleSubmit,
     openForm,
   } = useLayout();
 
   return (
     <>
-      <Header title={WORDINGS.MAIN_TITLE} />
-      {formOpen && (
-        <Modal onClose={closeForm} closeLabel={WORDINGS.CLOSE_FORM}>
-          <MemoForm
-            addMemo={handleAdd}
-            activeMemo={activeMemo}
-            updateMemo={handleUpdate}
-          />
-        </Modal>
-      )}
-      <MemoList memos={memos} update={openForm} remove={handleRemove} />
-      <AddButton onClick={openForm} label={WORDINGS.ADD_BUTTON} />
+      <Header onAdd={openForm} title={WORDINGS.MAIN_TITLE} />
+      <main>
+        <MemoList memos={memos} update={openForm} remove={handleRemove} />
+        {formOpen && (
+          <Modal onClose={closeForm} closeLabel={WORDINGS.CLOSE_FORM}>
+            <MemoForm activeMemo={activeMemo} onSubmit={handleSubmit} />
+          </Modal>
+        )}
+      </main>
     </>
   );
 }

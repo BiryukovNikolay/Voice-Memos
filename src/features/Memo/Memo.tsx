@@ -1,58 +1,73 @@
-import { ChangeEvent, memo } from 'react';
+import { memo, useState } from 'react';
+import classNames from 'classnames';
+import { DeleteIcon, EditIcon } from 'shared/icons';
 import styles from './Memo.module.scss';
 
 type Props = {
   description: string;
   content: string;
   id: string;
-  remove: (id: string) => void;
-  update: (id: string) => void;
+  onRemove: (id: string) => void;
+  onUpdate: (id: string) => void;
 };
 
 function Memo({
   description,
   content,
   id,
-  remove,
-  update,
+  onRemove,
+  onUpdate,
 }: Props): JSX.Element | null {
-  function handleBlur({ target }: ChangeEvent<Element>) {
-    console.log('change', target, id);
-  }
+  const [active, setActive] = useState(false);
 
   function handleDelete() {
-    console.log('delete', id);
-    remove(id);
+    onRemove(id);
   }
 
   function handleUpdate() {
-    update(id);
+    onUpdate(id);
+  }
+
+  function handleMouseEnter() {
+    setActive(true);
+  }
+
+  function handleMouseLeave() {
+    setActive(false);
   }
 
   return (
-    <div className={styles['container']}>
-      <h2
-        className={styles['description']}
-        onBlur={handleBlur}
-        contentEditable
-        suppressContentEditableWarning
+    <div
+      className={styles['container']}
+      onMouseMove={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <h2 className={styles['description']}>{description}</h2>
+      <p className={styles['text']}>{content}</p>
+      <div
+        className={classNames(styles['actions'], {
+          [styles['actions_active']]: active,
+        })}
       >
-        {description}
-      </h2>
-      <p
-        className={styles['text']}
-        onBlur={handleBlur}
-        contentEditable
-        suppressContentEditableWarning
-      >
-        {content}
-      </p>
-      <button type="button" onClick={handleDelete}>
-        DELETE
-      </button>
-      <button type="button" onClick={handleUpdate}>
-        Update
-      </button>
+        <button
+          className={styles['button']}
+          aria-label={'Edit'}
+          title={'Edit'}
+          type="button"
+          onClick={handleUpdate}
+        >
+          <EditIcon />
+        </button>
+        <button
+          className={styles['button']}
+          aria-label={'Delete'}
+          title={'Delete'}
+          type="button"
+          onClick={handleDelete}
+        >
+          <DeleteIcon />
+        </button>
+      </div>
     </div>
   );
 }

@@ -11,12 +11,31 @@
 }
 
 .modal {
+  position: relative;
   background-color: white;
   padding: 20px;
-  border-radius: 5px;
+  width: 50%;
+  border-radius: 20px;
+  min-width: 320px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .close {
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
   margin-bottom: 10px;
+  border: none;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.close-icon {
+  fill: black;
+  width: 25px;
+  height: 25px;
 }

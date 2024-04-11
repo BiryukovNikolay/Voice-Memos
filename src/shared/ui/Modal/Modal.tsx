@@ -2,6 +2,7 @@ import { RefObject } from 'react';
 import { useClickOutside, useKeyDown } from 'shared/hooks';
 import { KeyCode } from 'shared/constants';
 import styles from './Modal.module.scss';
+import { DeleteIcon } from 'src/shared/icons';
 
 type Props = {
   onClose: () => void;
@@ -24,8 +25,12 @@ const Modal = ({ onClose, children, closeLabel }: Props) => {
         ref={modalRef as RefObject<HTMLDivElement>}
         className={styles['modal']}
       >
-        <button className={styles['close-button']} onClick={onClose}>
-          {closeLabel}
+        <button
+          aria-label={closeLabel}
+          className={styles['close']}
+          onClick={onClose}
+        >
+          <DeleteIcon className={styles['close-icon']} />
         </button>
         {children}
       </div>

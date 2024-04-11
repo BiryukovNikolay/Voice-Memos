@@ -8,9 +8,8 @@ type UseLayoutHookResult = {
   memos: MemoType[];
   openForm: (id?: string) => void;
   closeForm: () => void;
-  handleUpdate: (memo: MemoType) => void;
-  handleAdd: (memo: MemoType) => void;
   handleRemove: (id: string) => void;
+  handleSubmit: (memo: MemoType) => void;
 };
 
 export function useLayout(): UseLayoutHookResult {
@@ -37,20 +36,20 @@ export function useLayout(): UseLayoutHookResult {
     [memos],
   );
 
-  const handleUpdate = useCallback(
+  const handleSubmit = useCallback(
     (memo: MemoType) => {
-      update(memo);
-      closeForm();
-    },
-    [closeForm, update],
-  );
+      if (memo.id) {
+        update(memo);
+      } else {
+        add({
+          ...memo,
+          id: Date.now().toString(),
+        });
+      }
 
-  const handleAdd = useCallback(
-    (memo: MemoType) => {
-      add(memo);
       closeForm();
     },
-    [add, closeForm],
+    [add, closeForm, update],
   );
 
   const handleRemove = useCallback(
@@ -66,8 +65,7 @@ export function useLayout(): UseLayoutHookResult {
     activeMemo,
     openForm,
     closeForm,
-    handleUpdate,
-    handleAdd,
+    handleSubmit,
     handleRemove,
   };
 }

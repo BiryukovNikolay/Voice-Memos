@@ -4,6 +4,7 @@ import { ControlName, ControlType, PayloadType } from 'shared/types';
 import { WORDINGS } from 'shared/constants';
 import styles from './Control.module.scss';
 import classNames from 'classnames';
+import { RecordButton } from 'src/shared/ui';
 
 type Props = {
   label: string;
@@ -24,14 +25,12 @@ function Control({
 }: Props): JSX.Element | null {
   const { recognition, result } = useSpeechRecognition();
 
-  function mouseDownHandler() {
+  function handleStart() {
     recognition?.start();
-    console.log('start', recognition);
   }
 
-  function mouseUpHandler() {
+  function handleStop() {
     recognition?.stop();
-    console.log('stop', recognition);
   }
 
   function handleChange({
@@ -51,6 +50,7 @@ function Control({
       case ControlType.TEXTAREA:
         return (
           <textarea
+            rows={10}
             name={name}
             onChange={handleChange}
             className={classNames(styles['input'], {
@@ -76,18 +76,17 @@ function Control({
   }
 
   return (
-    <div className={styles['description']}>
+    <div className={styles['control']}>
       <label className={styles['label']}>
-        <span>{label}</span>
+        <span className={styles['title']}>{label}</span>
         {getInput()}
       </label>
-      <button
-        aria-label={WORDINGS.START_RECORDING}
+      <RecordButton
+        label={WORDINGS.START_RECORDING}
         className={styles['start-button']}
-        type="button"
-        onMouseDown={mouseDownHandler}
-        onMouseUp={mouseUpHandler}
-      ></button>
+        onStart={handleStart}
+        onStop={handleStop}
+      />
     </div>
   );
 }

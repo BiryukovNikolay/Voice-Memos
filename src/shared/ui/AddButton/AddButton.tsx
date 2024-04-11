@@ -1,4 +1,6 @@
 import { memo } from 'react';
+import { PlusIcon } from 'shared/icons';
+import styles from './AddButton.module.scss';
 
 type Props = {
   label: string;
@@ -7,9 +9,13 @@ type Props = {
 
 function AddButton({ onClick, label }: Props): JSX.Element {
   return (
-    <button type="button" onClick={onClick} aria-label={label}>
-      {' '}
-      +{' '}
+    <button
+      className={styles['button']}
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+    >
+      <PlusIcon className={styles['icon']} />
     </button>
   );
 }
