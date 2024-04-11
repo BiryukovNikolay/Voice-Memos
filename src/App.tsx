@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useStorage } from 'entities/storage';
+import { MemoForm } from 'widgets/MemoForm';
+import { Header } from 'widgets/Header';
+import { MemoList } from 'widgets/MemoList';
+import { WORDINGS } from 'shared/constants';
+import { AddButton, Modal } from 'shared/ui';
+import { useCallback, useState } from 'react';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [formOpen, setFormOpen] = useState(false);
+  const { memos, add, update, remove } = useStorage();
+
+  const handleClickAdd = useCallback(() => {
+    setFormOpen(true);
+  }, []);
+
+  const closeForm = useCallback(() => {
+    setFormOpen(false);
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Voice Memo</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header title={WORDINGS.MAIN_TITLE} />
+      {formOpen && (
+        <Modal onClose={closeForm} closeLabel={WORDINGS.CLOSE_FORM}>
+          <MemoForm addMemo={add} />
+        </Modal>
+      )}
+      <MemoList memos={memos} update={update} remove={remove} />
+      <AddButton onClick={handleClickAdd} label={WORDINGS.ADD_BUTTON} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
