@@ -86,6 +86,7 @@ function Control({
         className={styles['start-button']}
         onStart={handleStart}
         onStop={handleStop}
+        disabled={!recognition}
       />
     </div>
   );
