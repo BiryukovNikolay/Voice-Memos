@@ -6,7 +6,7 @@ import styles from './MemoList.module.scss';
 
 type Props = {
   memos: MemoType[];
-  update: (memo: MemoType) => void;
+  update: (id: string) => void;
   remove: (id: string) => void;
 };
 

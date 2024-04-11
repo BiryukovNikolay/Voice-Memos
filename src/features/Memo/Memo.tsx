@@ -1,5 +1,4 @@
 import { ChangeEvent, memo } from 'react';
-import { MemoType } from 'shared/types';
 import styles from './Memo.module.scss';
 
 type Props = {
@@ -7,10 +6,16 @@ type Props = {
   content: string;
   id: string;
   remove: (id: string) => void;
-  update: (memo: MemoType) => void;
+  update: (id: string) => void;
 };
 
-function Memo({ description, content, id, remove }: Props): JSX.Element | null {
+function Memo({
+  description,
+  content,
+  id,
+  remove,
+  update,
+}: Props): JSX.Element | null {
   function handleBlur({ target }: ChangeEvent<Element>) {
     console.log('change', target, id);
   }
@@ -21,7 +26,7 @@ function Memo({ description, content, id, remove }: Props): JSX.Element | null {
   }
 
   function handleUpdate() {
-    console.log('update', id);
+    update(id);
   }
 
   return (

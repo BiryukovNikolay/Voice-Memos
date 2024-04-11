@@ -1,4 +1,4 @@
-import { FormEvent, memo, useCallback, useState } from 'react';
+import { FormEvent, memo, useCallback, useEffect, useState } from 'react';
 import { Control } from 'features/Control';
 import {
   ControlName,
@@ -12,6 +12,8 @@ import styles from './MemoForm.module.scss';
 
 type Props = {
   addMemo: (memo: MemoType) => void;
+  updateMemo: (memo: MemoType) => void;
+  activeMemo: MemoType | null;
 };
 
 const INITIAL_STATE: StateType = {
@@ -19,7 +21,11 @@ const INITIAL_STATE: StateType = {
   [ControlName.MAIN]: '',
 };
 
-function MemoForm({ addMemo }: Props): JSX.Element | null {
+function MemoForm({
+  addMemo,
+  updateMemo,
+  activeMemo,
+}: Props): JSX.Element | null {
   const [state, setState] = useState<StateType>(INITIAL_STATE);
   const [error, setError] = useState<boolean>(false);
 
@@ -31,11 +37,21 @@ function MemoForm({ addMemo }: Props): JSX.Element | null {
       return;
     }
 
-    addMemo({
-      id: Date.now().toString(),
-      description: state[ControlName.DESCRIPTION],
-      content: state[ControlName.MAIN],
-    });
+    if (activeMemo) {
+      updateMemo({
+        ...activeMemo,
+        description: state[ControlName.DESCRIPTION],
+        content: state[ControlName.MAIN],
+      });
+
+      return;
+    } else {
+      addMemo({
+        id: Date.now().toString(),
+        description: state[ControlName.DESCRIPTION],
+        content: state[ControlName.MAIN],
+      });
+    }
 
     setState(INITIAL_STATE);
   }
@@ -50,6 +66,19 @@ function MemoForm({ addMemo }: Props): JSX.Element | null {
       [name]: value,
     }));
   }, []);
+
+  useEffect(() => {
+    if (activeMemo) {
+      setState({
+        [ControlName.DESCRIPTION]: activeMemo.description,
+        [ControlName.MAIN]: activeMemo.content,
+      });
+    } else {
+      setState(INITIAL_STATE);
+    }
+  }, [activeMemo]);
+
+  console.log(state, 'state');
 
   return (
     <form className={styles['form']} onSubmit={handleSubmit}>

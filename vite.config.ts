@@ -18,6 +18,7 @@ export default defineConfig({
       features: '/src/features/',
       shared: '/src/shared/',
       entities: '/src/entities',
+      layout: '/src/layout',
     },
   },
 });
