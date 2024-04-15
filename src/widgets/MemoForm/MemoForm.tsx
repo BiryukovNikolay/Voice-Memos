@@ -65,6 +65,7 @@ function MemoForm({ onSubmit, activeMemo }: Props): JSX.Element | null {
 
   return (
     <form className={styles['form']} onSubmit={handleSubmit}>
+      <span className={styles['instruction']}>{WORDINGS.INSTRUCTION}</span>
       <Control
         name={ControlName.DESCRIPTION}
         label={WORDINGS.LABEL_DESCRIPTION}

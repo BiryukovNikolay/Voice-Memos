@@ -6,4 +6,5 @@ export const WORDINGS = {
   ADD_BUTTON: 'Add Memo',
   CLOSE_FORM: 'Close Form',
   UPDATE: 'Update',
+  INSTRUCTION: 'Type in the description and the content of the memo. Hold the button or key left ctrl (cmd for mac) to start recording your voice.',
 };

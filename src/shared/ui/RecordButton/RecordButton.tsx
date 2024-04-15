@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import { MicrophoneIcon, RecordIcon } from 'src/shared/icons';
 import styles from './RecordButton.module.scss';
 import classNames from 'classnames';
@@ -7,6 +7,7 @@ type Props = {
   onStart: () => void;
   onStop: () => void;
   label: string;
+  recording: boolean;
   className?: string;
   disabled?: boolean;
 };
@@ -17,18 +18,8 @@ const RecordButton = ({
   onStart,
   onStop,
   disabled,
+  recording,
 }: Props) => {
-  const [isRecording, setIsRecording] = useState(false);
-
-  const handleMouseDown = () => {
-    setIsRecording(true);
-    onStart();
-  };
-
-  const handleMouseUp = () => {
-    setIsRecording(false);
-    onStop();
-  };
 
   return (
     <button
@@ -36,12 +27,12 @@ const RecordButton = ({
       className={classNames(className, {
         [styles['button-disabled']]: disabled,
       })}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
+      onMouseDown={onStart}
+      onMouseUp={onStop}
       disabled={disabled}
       title={disabled ? 'Please allow microphone access' : label}
     >
-      {isRecording ? (
+      {recording ? (
         <RecordIcon className={styles['flashing']} />
       ) : (
         <MicrophoneIcon className={styles['microphone']} />

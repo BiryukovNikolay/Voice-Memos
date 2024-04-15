@@ -1,10 +1,11 @@
-import { ChangeEvent, memo, useEffect } from 'react';
+import { ChangeEvent, memo, useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { useSpeechRecognition } from 'entities/speechRecognition';
 import { ControlName, ControlType, PayloadType } from 'shared/types';
 import { WORDINGS } from 'shared/constants';
 import { RecordButton } from 'src/shared/ui';
 import styles from './Control.module.scss';
+import { useCtrlPressHandlers } from 'src/shared/hooks';
 
 type Props = {
   label: string;
@@ -23,7 +24,25 @@ function Control({
   type,
   error,
 }: Props): JSX.Element | null {
+  const [recording, setRecording] = useState(false);
+
   const { start, stop, result, disabled } = useSpeechRecognition();
+
+  const handleStartRecord = useCallback(() => {
+    setRecording(true);
+    start();
+  }, [start]);
+
+  const handleStopRecord = useCallback(() => {
+    setRecording(false);
+    stop();
+  }, [stop]);
+
+  const {handleKeyDown, handleKeyUp} = useCtrlPressHandlers({
+    onDown: handleStartRecord,
+    onUp: handleStopRecord,
+  });
+
 
   function handleChange({
     target,
@@ -31,6 +50,7 @@ function Control({
     const { value } = target;
     onChange({ name, value });
   }
+
 
   useEffect(() => {
     onChange({ name, value: result });
@@ -43,6 +63,8 @@ function Control({
           <textarea
             rows={10}
             name={name}
+            onKeyDown={handleKeyDown}
+            onKeyUp={handleKeyUp}
             onChange={handleChange}
             className={classNames(styles['input'], {
               [styles['input_error']]: error,
@@ -55,6 +77,8 @@ function Control({
           <input
             name={name}
             onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            onKeyUp={handleKeyUp}
             className={classNames(styles['input'], {
               [styles['input_error']]: error,
             })}
@@ -75,9 +99,10 @@ function Control({
       <RecordButton
         label={WORDINGS.START_RECORDING}
         className={styles['start-button']}
-        onStart={start}
-        onStop={stop}
+        onStart={handleStartRecord}
+        onStop={handleStopRecord}
         disabled={disabled}
+        recording={recording}
       />
     </div>
   );
