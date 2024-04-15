@@ -1,5 +1,5 @@
 import { KeyboardEvent } from 'react';
-import { KeyCode } from '../constants';
+import { KeyCode } from 'shared/constants';
 
 type UseKeyPressHandlersResult = {
   handleKeyDown: (event: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
@@ -13,7 +13,6 @@ type Props = {
 
 export function useCtrlPressHandlers({onDown, onUp}: Props): UseKeyPressHandlersResult {
   const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    console.log(event.code);
 
     if (event.code === KeyCode.ControlLeft || event.code === KeyCode.MetaLeft) {
       onDown();
