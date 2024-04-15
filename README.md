@@ -27,6 +27,7 @@
   - adding a search bar
   - adding ability to play memo with - [SpeechSynthesisUtterance](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisUtterance)
   - improving the design
+  - adding selection of language for the speech recognition
 
 
 
