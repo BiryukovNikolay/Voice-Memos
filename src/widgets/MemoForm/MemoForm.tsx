@@ -63,8 +63,6 @@ function MemoForm({ onSubmit, activeMemo }: Props): JSX.Element | null {
     }
   }, [activeMemo]);
 
-  console.log(state, 'state');
-
   return (
     <form className={styles['form']} onSubmit={handleSubmit}>
       <Control

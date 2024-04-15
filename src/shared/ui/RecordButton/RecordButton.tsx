@@ -11,7 +11,13 @@ type Props = {
   disabled?: boolean;
 };
 
-const RecordButton = ({ className, label, onStart, onStop, disabled }: Props) => {
+const RecordButton = ({
+  className,
+  label,
+  onStart,
+  onStop,
+  disabled,
+}: Props) => {
   const [isRecording, setIsRecording] = useState(false);
 
   const handleMouseDown = () => {
@@ -27,7 +33,9 @@ const RecordButton = ({ className, label, onStart, onStop, disabled }: Props) =>
   return (
     <button
       aria-label={label}
-      className={classNames(className, {[styles['button-disabled']]: disabled})}
+      className={classNames(className, {
+        [styles['button-disabled']]: disabled,
+      })}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       disabled={disabled}

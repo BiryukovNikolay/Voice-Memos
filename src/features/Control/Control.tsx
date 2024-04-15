@@ -1,10 +1,10 @@
 import { ChangeEvent, memo, useEffect } from 'react';
+import classNames from 'classnames';
 import { useSpeechRecognition } from 'entities/speechRecognition';
 import { ControlName, ControlType, PayloadType } from 'shared/types';
 import { WORDINGS } from 'shared/constants';
-import styles from './Control.module.scss';
-import classNames from 'classnames';
 import { RecordButton } from 'src/shared/ui';
+import styles from './Control.module.scss';
 
 type Props = {
   label: string;
@@ -23,20 +23,11 @@ function Control({
   type,
   error,
 }: Props): JSX.Element | null {
-  const { recognition, result } = useSpeechRecognition();
-
-  function handleStart() {
-    recognition?.start();
-  }
-
-  function handleStop() {
-    recognition?.stop();
-  }
+  const { start, stop, result, disabled } = useSpeechRecognition();
 
   function handleChange({
     target,
   }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    console.log('change', target);
     const { value } = target;
     onChange({ name, value });
   }
@@ -84,9 +75,9 @@ function Control({
       <RecordButton
         label={WORDINGS.START_RECORDING}
         className={styles['start-button']}
-        onStart={handleStart}
-        onStop={handleStop}
-        disabled={!recognition}
+        onStart={start}
+        onStop={stop}
+        disabled={disabled}
       />
     </div>
   );
